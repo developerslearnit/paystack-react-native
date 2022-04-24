@@ -1,0 +1,22 @@
+{
+  "name": "@devlearn/paystack-react-native-example",
+  "displayName": "PaystackReactNative Example",
+  "expo": {
+    "name": "@devlearn/paystack-react-native-example",
+    "slug": "devlearn-paystack-react-native-example",
+    "description": "Example app for @devlearn/paystack-react-native",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
