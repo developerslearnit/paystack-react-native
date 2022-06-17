@@ -1,6 +1,6 @@
 {
   "name": "@devlearn/paystack-react-native",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A Paystack React Native SDK that allows you to build delightful payment experience in your native Android and IOS apps with React Native.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -32,9 +32,17 @@
     "bootstrap": "yarn example && yarn && yarn pods"
   },
   "keywords": [
+    "react-native-paystack",
+    "paystack-react-native",
     "react-native",
     "ios",
-    "android"
+    "android",
+    "paystack",
+    "payment",
+    "paystack-react-native-sdk",
+    "react-native-payment-gateway",
+    "paystack-react-native-payment",
+    "best-paystack-react-native-payment-gateway"
   ],
   "repository": "https://github.com/developerslearnit/paystack-react-native",
   "author": "Mark <mark2kk@gmail.com> (https://github.com/developerslearnit)",

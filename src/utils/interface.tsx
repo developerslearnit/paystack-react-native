@@ -1,5 +1,3 @@
-import type { ReactElement } from 'react';
-
 interface Props {
   publicKey: string;
   amount: string;
@@ -10,7 +8,8 @@ interface Props {
   phone?: string;
   tranxRef: string;
   paymentChannels: string;
-  showPaymentPopup: boolean;
+  passChargeToCustomer?: boolean;
+  containerStyle?: any;
   onPaymentSuccess: (response: any) => void;
 }
 

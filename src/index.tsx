@@ -1,19 +1,28 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, useEffect, useState } from 'react';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
-import { View, Text, ActivityIndicator, Modal, StyleSheet } from 'react-native';
+import { View, Dimensions, ActivityIndicator, Modal, Text } from 'react-native';
 import type { Props } from './utils/interface';
 import { transFormCard } from './utils/utils';
+import PaystackFee from './utils/customerCharge';
 
 const Index: FC<Props> = (props): JSX.Element => {
+  const { width, height } = Dimensions.get('window');
   const PAYSTACK_CLOSE_URL = 'https://standard.paystack.co/close';
+  const [totalAmount, setTotalAmount] = useState(props.amount);
+  const [showModal, setshowModal] = useState(false);
 
-  const onNavStateChanged = (navState: any) => {
-    const { url } = navState;
-
-    if (url === PAYSTACK_CLOSE_URL) {
+  useEffect(() => {
+    if (props.passChargeToCustomer) {
+      let amount = parseInt(props.amount);
+      var fees = new PaystackFee();
+      const charge = fees.calculateFee(amount);
+      const total = amount + charge;
+      setTotalAmount(total.toString());
+    } else {
+      setTotalAmount(props.amount);
     }
-  };
+  }, []);
 
   const onMessageReceived = (data: any) => {
     const paymentResponse = JSON.parse(data);
@@ -21,7 +30,12 @@ const Index: FC<Props> = (props): JSX.Element => {
   };
 
   const renderLoader = (): ReactElement => {
-    return <ActivityIndicator size="large" />;
+    return (
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Text>Please wait..</Text>
+        <ActivityIndicator size="large" />
+      </View>
+    );
   };
 
   const paymentForm = `
@@ -43,8 +57,9 @@ const Index: FC<Props> = (props): JSX.Element => {
                 email: '${props.email}',
                 firstname: '${props.firstName}',
                 lastname: '${props?.lastName}',
+                label:'${props.firstName || props.lastName || props.email}',
                 phone: '${props.phone}',
-                amount: ${props.amount},
+                amount: ${totalAmount},
                 currency: '${props.currency}',
                 ref:'${props.tranxRef}',
                 ${transFormCard(props.paymentChannels)},
@@ -80,39 +95,22 @@ const Index: FC<Props> = (props): JSX.Element => {
       </html>`;
 
   return (
-    <Modal
-      transparent={true}
-      visible={props.showPaymentPopup}
-      animationType="slide"
-    >
-      {!props.tranxRef ? (
-        <View
-          style={{
-            flex: 1,
-            alignContent: 'center',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 25,
-          }}
-        >
-          <Text style={{ textAlign: 'center' }}>
-            Please provide a valid transaction reference
-          </Text>
+    <Modal transparent={true} visible={true} animationType="slide">
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: width, height: height, ...props.containerStyle }}>
+          <WebView
+            originWhitelist={['*']}
+            javaScriptEnabled={true}
+            source={{ html: paymentForm }}
+            renderLoading={renderLoader}
+            startInLoadingState={true}
+            onMessage={(e) => {
+              onMessageReceived(e.nativeEvent?.data);
+            }}
+            scrollEnabled={false}
+          />
         </View>
-      ) : (
-        <WebView
-          style={{ flex: 1 }}
-          originWhitelist={['*']}
-          javaScriptEnabled={true}
-          source={{ html: paymentForm }}
-          renderLoading={renderLoader}
-          startInLoadingState={true}
-          onMessage={(e) => {
-            onMessageReceived(e.nativeEvent?.data);
-          }}
-          onNavigationStateChange={onNavStateChanged}
-        />
-      )}
+      </View>
     </Modal>
   );
 };
@@ -130,5 +128,5 @@ Index.propTypes = {
   tranxRef: PropTypes.string.isRequired,
   paymentChannels: PropTypes.string.isRequired,
   onPaymentSuccess: PropTypes.func.isRequired,
-  showPaymentPopup: PropTypes.bool.isRequired,
+  passChargeToCustomer: PropTypes.bool,
 };
