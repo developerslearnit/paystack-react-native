@@ -1,16 +1,14 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
-import { View, Dimensions, ActivityIndicator, Modal, Text } from 'react-native';
+import { View, ActivityIndicator, Modal, Text } from 'react-native';
 import type { Props } from './utils/interface';
 import { transFormCard } from './utils/utils';
 import PaystackFee from './utils/customerCharge';
 
 const Index: FC<Props> = (props): JSX.Element => {
-  const { width, height } = Dimensions.get('window');
-  const PAYSTACK_CLOSE_URL = 'https://standard.paystack.co/close';
+  // const PAYSTACK_CLOSE_URL = 'https://standard.paystack.co/close';
   const [totalAmount, setTotalAmount] = useState(props.amount);
-  const [showModal, setshowModal] = useState(false);
 
   useEffect(() => {
     if (props.passChargeToCustomer) {
@@ -97,7 +95,7 @@ const Index: FC<Props> = (props): JSX.Element => {
   return (
     <Modal transparent={true} visible={true} animationType="slide">
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <View style={{ width: width, height: height, ...props.containerStyle }}>
+        <View style={{ flex: 1, ...props.containerStyle }}>
           <WebView
             originWhitelist={['*']}
             javaScriptEnabled={true}
