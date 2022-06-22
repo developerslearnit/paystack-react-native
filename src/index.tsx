@@ -1,10 +1,18 @@
 import React, { FC, ReactElement, useEffect, useState } from 'react';
 import WebView from 'react-native-webview';
 import PropTypes from 'prop-types';
-import { View, ActivityIndicator, Modal, Text } from 'react-native';
+import {
+  View,
+  ActivityIndicator,
+  Modal,
+  Text,
+  Image,
+  Dimensions,
+} from 'react-native';
 import type { Props } from './utils/interface';
 import { transFormCard } from './utils/utils';
 import PaystackFee from './utils/customerCharge';
+const { height, width } = Dimensions.get('screen');
 
 const Index: FC<Props> = (props): JSX.Element => {
   // const PAYSTACK_CLOSE_URL = 'https://standard.paystack.co/close';
@@ -29,9 +37,55 @@ const Index: FC<Props> = (props): JSX.Element => {
 
   const renderLoader = (): ReactElement => {
     return (
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>Please wait..</Text>
-        <ActivityIndicator size="large" />
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'absolute',
+          top: 1,
+          left: 1,
+          right: 1,
+          bottom: 1,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          zIndex: 999,
+        }}
+      >
+        <View
+          style={{
+            height: height * 0.75,
+            backgroundColor: '#E7EAEF',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: width * 0.9,
+            borderRadius: 10,
+          }}
+        >
+          <View style={{ marginTop: height * 0.2 }}>
+            <Image
+              style={{ width: 45, height: 45, resizeMode: 'contain' }}
+              source={{
+                uri: 'https://public-files-paystack-prod.s3.eu-west-1.amazonaws.com/integration-logos/3c2534y84l5k9l0dloty.png',
+              }}
+            />
+          </View>
+          <View
+            style={{
+              marginBottom: 45,
+              marginTop: -30,
+            }}
+          >
+            <Text style={{ fontSize: 35, marginBottom: 15 }}>
+              Loading payment page.
+            </Text>
+            <Text
+              style={{ fontSize: 25, textAlign: 'center', marginBottom: 20 }}
+            >
+              Please wait....
+            </Text>
+            <ActivityIndicator size="large" color="green" />
+          </View>
+        </View>
       </View>
     );
   };
@@ -106,6 +160,9 @@ const Index: FC<Props> = (props): JSX.Element => {
               onMessageReceived(e.nativeEvent?.data);
             }}
             scrollEnabled={false}
+            onLoadEnd={() => {
+              console.log('Load Ends');
+            }}
           />
         </View>
       </View>

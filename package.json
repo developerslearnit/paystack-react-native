@@ -1,6 +1,6 @@
 {
   "name": "@devlearn/paystack-react-native",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Paystack React Native SDK that allows you to build delightful payment experience in your native Android and IOS apps with React Native.",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
