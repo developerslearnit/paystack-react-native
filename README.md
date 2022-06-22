@@ -225,6 +225,16 @@ const styles = StyleSheet.create({
 | passChargeToCustomer | Flag to indicate if paystack charge should be paid by the customer. If set to true, paystack charge will be calculated and will be added to the customer payable amount.           | boolean  | false    | false        |
 | containerStyle       | This allow you to apply custom style to suite your app customer                                                                                                                    | object   | false    | null         |
 
+## Donation
+
+If this project helped you reduce time to develop, you can buy me a cup of coffee :)
+
+<a href="https://www.buymeacoffee.com/markadesina" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-red.png" alt="Buy Me A Coffee" height="50" ></a>
+
+## Hire
+
+Looking for a React/React-Native Expert? Email at mark2kk@gmail.com or developerslearnit@gmail.com
+
 ## Contributing
 
 See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.
