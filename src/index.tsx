@@ -12,7 +12,7 @@ import {
 import type { Props } from './utils/interface';
 import { transFormCard } from './utils/utils';
 import PaystackFee from './utils/customerCharge';
-const { height, width } = Dimensions.get('screen');
+const { height, width } = Dimensions.get('window');
 
 const Index: FC<Props> = (props): JSX.Element => {
   // const PAYSTACK_CLOSE_URL = 'https://standard.paystack.co/close';
@@ -43,10 +43,10 @@ const Index: FC<Props> = (props): JSX.Element => {
           alignItems: 'center',
           justifyContent: 'center',
           position: 'absolute',
-          top: 1,
-          left: 1,
-          right: 1,
-          bottom: 1,
+          top: 2,
+          left: 2,
+          right: 2,
+          bottom: 2,
           backgroundColor: 'rgba(0,0,0,0.5)',
           zIndex: 999,
         }}
@@ -73,13 +73,15 @@ const Index: FC<Props> = (props): JSX.Element => {
             style={{
               marginBottom: 45,
               marginTop: -30,
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <Text style={{ fontSize: 35, marginBottom: 15 }}>
+            <Text style={{ fontSize: 15, marginBottom: 15 }}>
               Loading payment page.
             </Text>
             <Text
-              style={{ fontSize: 25, textAlign: 'center', marginBottom: 20 }}
+              style={{ fontSize: 14, textAlign: 'center', marginBottom: 20 }}
             >
               Please wait....
             </Text>
@@ -100,11 +102,12 @@ const Index: FC<Props> = (props): JSX.Element => {
           <title>Paystack</title>
         </head>
           <body  onload="payWithPaystack()">
-            <script src="https://js.paystack.co/v1/inline.js"></script>
+            <script src="https://js.paystack.co/v2/inline.js"></script>
             <script type="text/javascript">
               window.onload = payWithPaystack;
               function payWithPaystack(){
-              var handler = PaystackPop.setup({
+                const paystack = new PaystackPop();
+                paystack.newTransaction({
                 key: '${props.publicKey}',
                 email: '${props.email}',
                 firstname: '${props.firstName}',
@@ -125,7 +128,7 @@ const Index: FC<Props> = (props): JSX.Element => {
                         value:''
                         }
                 ]},
-                callback: function(responseObj){
+                onSuccess: (responseObj)=>{
                  const paymentResponse = {
                     status: responseObj.status,
                     reference: responseObj.reference,
@@ -135,12 +138,12 @@ const Index: FC<Props> = (props): JSX.Element => {
                   };
                 window.ReactNativeWebView.postMessage(JSON.stringify(paymentResponse))
                 },
-                onClose: function(){
+                onCancel:()=>{
                     var response = {status:'Cancelled',message:'Payment cancelled'};
                     window.ReactNativeWebView.postMessage(JSON.stringify(response))
                 }
+
                 });
-                handler.openIframe();
                 }
             </script>
           </body>

@@ -24,7 +24,7 @@ export default function App() {
     email: 'customer@someeail.com',
     firstName: 'John',
     lastName: 'Doe',
-    publicKey: 'pk_test_4cdd4b1e6e52633f9e0800f1e22b89db3beea6d9',
+    publicKey: 'pk_test_4cdd4b1e6e52633f9e08xxxx',
   };
 
   const handlePaymentSuccess = async (response: any) => {
